@@ -6,17 +6,10 @@ import {
   IsString,
 } from 'class-validator';
 import { IBulkDto } from './create-bulk.dto';
-import { OrderStatus } from '../types/order.type';
 
 export class CreateOrderDto {
-  @IsNumber()
-  userId: number;
-
   @IsString()
-  collection_address: string;
-
-  @IsString()
-  status: OrderStatus;
+  userId: string;
 
   @IsNumber()
   orderNumber: number;
@@ -30,10 +23,12 @@ export class CreateOrderDto {
   @IsString()
   destination_address: string;
 
-  @IsNumber()
+  @IsString()
+  collection_address: string;
+
+  @IsString()
   telephone: string;
 
-  @IsEmail()
   @IsEmail()
   email: string;
 
