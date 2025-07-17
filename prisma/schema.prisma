@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  first_name     String
+  last_name      String
+  sex            Sex @default(MALE)
+  birthdate_date DateTime
+  email          String   @unique
+  telephone      String
+  password       String
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+  order          Order[]   @relation("UserOrders")
+}
+
+model Order {
+  id                  String      @id @default(auto()) @map("_id") @db.ObjectId
+  orderNumber         BigInt      @unique
+  status              OrderStatus @default(PENDING)
+  collection_address  String
+  first_name          String
+  last_name           String
+  destination_address String
+  telephone           String
+  email               String      @unique
+  indications         String?
+  department          String
+  town                String
+  reference           String?
+  scheduled_date      DateTime
+  created_at          DateTime    @default(now())
+  updated_at          DateTime    @updatedAt
+  userId              String      @db.ObjectId
+  user                User        @relation("UserOrders", fields: [userId], references: [id])
+  bulk                Bulk[]      @relation("OrderBulks")
+}
+
+model Bulk {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  length        Float  
+  height        Float
+  width         Float
+  weight_pounds Float
+  description   String
+  orderId       String   @db.ObjectId
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  order         Order    @relation("OrderBulks", fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  IN_TRANSIT
+  DELIVERED
+  CANCELLED
+}
+
+enum Sex {
+  MALE
+  FEMALE
+  OTHER
+}
