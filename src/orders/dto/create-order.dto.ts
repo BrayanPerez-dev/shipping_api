@@ -2,49 +2,59 @@ import {
   IsArray,
   IsDateString,
   IsEmail,
-  IsNumber,
+  IsNotEmpty,
+  IsOptional,
   IsString,
 } from 'class-validator';
 import { IBulkDto } from './create-bulk.dto';
 
 export class CreateOrderDto {
   @IsString()
+  @IsNotEmpty()
   userId: string;
 
-  @IsNumber()
-  orderNumber: number;
-
   @IsString()
+  @IsNotEmpty()
   first_name: string;
 
   @IsString()
+  @IsNotEmpty()
   last_name: string;
 
   @IsString()
+  @IsNotEmpty()
   destination_address: string;
 
   @IsString()
+  @IsNotEmpty()
   collection_address: string;
 
   @IsString()
+  @IsNotEmpty()
   telephone: string;
 
   @IsEmail()
+  @IsNotEmpty()
   email: string;
 
+  @IsOptional()
   @IsString()
-  indications: string | null;
+  indications: string;
 
   @IsString()
+  @IsNotEmpty()
   department: string;
 
   @IsString()
+  @IsNotEmpty()
   town: string;
 
   @IsString()
-  reference: string | null;
+  @IsOptional()
+  reference: string;
 
   @IsDateString()
+  @IsNotEmpty()
   scheduled_date: Date;
 
   @IsArray()

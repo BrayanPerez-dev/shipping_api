@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Order } from './entities/order.entity';
-//import { Order } from '../../generated/prisma';
+import { IFindOrder } from './types/order.type';
 
 @Injectable()
 export class OrdersService {
@@ -40,20 +40,24 @@ export class OrdersService {
 
   findAll(
     userId: string,
-    startDate: string,
-    endDate: string,
+    startDate?: string,
+    endDate?: string,
   ): Promise<Order[]> {
-    console.log(userId, startDate, endDate);
+    const where: IFindOrder = {
+      userId: userId,
+    };
+
+    if (startDate && endDate) {
+      where.scheduled_date = {
+        gte: new Date(startDate),
+        lte: new Date(endDate),
+      };
+    }
+
     return this.prisma.order.findMany({
-      where: {
-        userId: userId,
-        scheduled_date: {
-          gte: new Date(startDate),
-          lte: new Date(endDate),
-        },
-      },
+      where,
       include: {
-        bulk: true,
+        bulk: true, // Incluir los bulks relacionados con la orden
       },
     });
   }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 
@@ -16,11 +16,11 @@ export class OrdersController {
     return this.ordersService.createUser();
   }
 
-  @Get('/:userId/:startDate/:endDate')
+  @Get()
   findAll(
-    @Param('userId') userId: string,
-    @Param('startDate') startDate: string,
-    @Param('endDate') endDate: string,
+    @Query('userId') userId: string,
+    @Query('startDate') startDate: string,
+    @Query('endDate') endDate: string,
   ) {
     return this.ordersService.findAll(userId, startDate, endDate);
   }

@@ -5,3 +5,11 @@ export enum OrderStatus {
   DELIVERED = 'DELIVERED',
   CANCELLED = 'CANCELLED',
 }
+
+export interface IFindOrder {
+  userId: string;
+  scheduled_date?: {
+    gte: Date;
+    lte: Date;
+  };
+}
