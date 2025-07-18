@@ -36,22 +36,18 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}orders?userId=68796ec2368b210d6d091437&startDate=2025-08-20&endDate=2025-09-20",
+					"raw": "{{base_url}}orders?startDate=2025-09-20&endDate=2025-10-20",
 					"host": [
 						"{{base_url}}orders"
 					],
 					"query": [
 						{
-							"key": "userId",
-							"value": "68796ec2368b210d6d091437"
-						},
-						{
 							"key": "startDate",
-							"value": "2025-08-20"
+							"value": "2025-09-20"
 						},
 						{
 							"key": "endDate",
-							"value": "2025-09-20"
+							"value": "2025-10-20"
 						}
 					]
 				},
@@ -81,7 +77,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"userId\": \"68797b80fdba9bacea62b20d\",  // ID del usuario (debe ser un ObjectId de MongoDB)\n  \"collection_address\": \"Calle Falsa 123, Ciudad, País\",\n  \"first_name\": \"Juan\",\n  \"last_name\": \"Pérez\",\n  \"destination_address\": \"Avenida Siempre Viva 742, Ciudad, País\",\n  \"telephone\": \"5551234567\",\n  \"email\": \"juan.perez@email.com\",\n  \"indications\": \"Dejar en la puerta\",\n  \"department\": \"Logística\",\n  \"town\": \"Ciudad Central\",\n  \"reference\": \"Ref12345\",\n  \"scheduled_date\": \"2025-09-20T10:00:00Z\",  // Fecha programada de la orden en formato ISO 8601\n  \"bulks\": [\n    {\n      \"length\": 25.0,\n      \"height\": 15,\n      \"width\": 20.3,\n      \"weight_pounds\": 15.0,\n      \"description\": \"Caja con ropa\"\n    },\n    {\n      \"length\": 25.0,\n      \"height\": 15.0,\n      \"width\": 10.0,\n      \"weight_pounds\": 5.0,\n      \"description\": \"Caja con zapatos\"\n    }\n  ]\n}\n",
+					"raw": "{\n  \"collection_address\": \"Calle Falsa 123, Ciudad, País\",\n  \"first_name\": \"Juan\",\n  \"last_name\": \"Pérez\",\n  \"destination_address\": \"Avenida Siempre Viva 742, Ciudad, País\",\n  \"telephone\": \"5551234567\",\n  \"email\": \"juan.perez@email.com\",\n  \"indications\": \"Dejar en la puerta\",\n  \"department\": \"Logística\",\n  \"town\": \"Ciudad Central\",\n  \"reference\": \"Ref12345\",\n  \"scheduled_date\": \"2025-09-20T10:00:00Z\",  // Fecha programada de la orden en formato ISO 8601\n  \"bulks\": [\n    {\n      \"length\": 25.0,\n      \"height\": 15,\n      \"width\": 20.3,\n      \"weight_pounds\": 15.0,\n      \"description\": \"Caja con ropa\"\n    },\n    {\n      \"length\": 25.0,\n      \"height\": 15.0,\n      \"width\": 10.0,\n      \"weight_pounds\": 5.0,\n      \"description\": \"Caja con zapatos\"\n    }\n  ]\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -99,7 +95,7 @@
 			"response": []
 		},
 		{
-			"name": "Create User",
+			"name": "Create User Auth",
 			"event": [
 				{
 					"listen": "test",
@@ -120,6 +116,90 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
+					"raw": "{\n  \"first_name\": \"Joe\",\n  \"last_name\": \"Doe\",\n  \"sex\": \"MALE\",\n  \"birthdate_date\": \"1990-01-01T00:00:00.000Z\",\n  \"email\": \"carl.doe@example.com\",\n  \"telephone\": \"1234567890\",\n  \"password\": \"securepassword123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}auth/register",
+					"host": [
+						"{{base_url}}auth"
+					],
+					"path": [
+						"register"
+					]
+				},
+				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"carla.perez@example.com\",\n  \"password\": \"securepassword123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}auth/login",
+					"host": [
+						"{{base_url}}auth"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": []
+		},
+		{
+			"name": "Get User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
 					"raw": "{\n    \n}\n",
 					"options": {
 						"raw": {
@@ -128,12 +208,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}orders/user",
+					"raw": "{{base_url}}users",
 					"host": [
-						"{{base_url}}orders"
-					],
-					"path": [
-						"user"
+						"{{base_url}}users"
 					]
 				},
 				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
@@ -141,6 +218,16 @@
 			"response": []
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNhcmxhLnBlcmV6QGV4YW1wbGUuY29tIiwic3ViIjoiNjg3YWIxMDU1YThlMDhhNGRkYzZjN2EwIiwiaWF0IjoxNzUyODc2NDI4LCJleHAiOjE3NTI4ODAwMjh9.HyJ9l1Rl6Ny_d3NeWZ660OpggWq4d0E6cCf8WPCC-d8",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",

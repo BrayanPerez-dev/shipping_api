@@ -11,10 +11,6 @@ import { IBulkDto } from './create-bulk.dto';
 export class CreateOrderDto {
   @IsString()
   @IsNotEmpty()
-  userId: string;
-
-  @IsString()
-  @IsNotEmpty()
   first_name: string;
 
   @IsString()

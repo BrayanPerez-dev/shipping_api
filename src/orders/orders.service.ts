@@ -7,16 +7,19 @@ import { IFindOrder } from './types/order.type';
 @Injectable()
 export class OrdersService {
   constructor(private prisma: PrismaService) {}
-  async create(createOrderDto: CreateOrderDto): Promise<Order> {
+  async create(createOrderDto: CreateOrderDto, userId: string): Promise<Order> {
     const { bulks, ...orderData } = createOrderDto;
 
+    if (!userId) {
+      throw new Error('User id must be here');
+    }
     if (!bulks || bulks.length === 0) {
       throw new Error('At least one bulk is required');
     }
-
     return await this.prisma.order.create({
       data: {
         ...orderData,
+        userId,
         orderNumber: Math.floor(Math.random() * 1000000),
         bulk: {
           create: bulks,
