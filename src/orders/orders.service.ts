@@ -27,19 +27,6 @@ export class OrdersService {
       },
     });
   }
-  async createUser() {
-    return await this.prisma.user.create({
-      data: {
-        first_name: 'Juan',
-        last_name: 'Pérez',
-        sex: 'MALE',
-        birthdate_date: new Date('1990-01-01'),
-        email: 'juan@example.com',
-        telephone: '50312345678',
-        password: 'hashedpassword',
-      },
-    });
-  }
 
   findAll(
     userId: string,
